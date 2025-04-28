@@ -1,0 +1,80 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Task {
+  id: ID!
+  title: String!
+  description: String
+  status: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  id: ID!
+  fullname: String!
+  email: String!
+  createdAt: DateTime!
+}
+
+type AuthResponse {
+  access_token: String!
+}
+
+type Query {
+  userByEmail(email: String!): User!
+  tasksByUserId(userId: String!): [Task!]!
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): User!
+  createTask(data: CreateTaskInput!): Task!
+  updateTask(taskId: String!, data: UpdateTaskInput!): Task!
+  deleteTask(taskId: String!): Boolean!
+  validateToken(token: String!): Boolean!
+  login(data: AuthInput!): AuthResponse!
+  signup(data: SignupInput!): AuthResponse!
+}
+
+input CreateUserInput {
+  fullname: String!
+  email: String!
+  password: String!
+}
+
+input CreateTaskInput {
+  title: String!
+  description: String
+  status: TaskStatus!
+  userId: String!
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+input UpdateTaskInput {
+  title: String
+  description: String
+  status: TaskStatus
+}
+
+input AuthInput {
+  email: String!
+  password: String!
+}
+
+input SignupInput {
+  fullname: String!
+  email: String!
+  password: String!
+}
